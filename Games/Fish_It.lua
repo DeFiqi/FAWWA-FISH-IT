@@ -1,6 +1,52 @@
 local Rayfield = loadstring(game:HttpGet(
-    'https://sirius.menu/rayfield'
+    "https://sirius.menu/rayfield"
 ))()
+
+local HttpService = game:GetService("HttpService")
+
+getgenv().FAWWA = getgenv().FAWWA or {}
+getgenv().FAWWA.Webhook = getgenv().FAWWA.Webhook or ""
+
+local function SendWebhook()
+    local url = getgenv().FAWWA.Webhook
+
+    if not url or url == "" then
+        return false
+    end
+
+    local payload = {
+        embeds = {{
+            title = "🎣 FAWWA FISH IT",
+            description = "Webhook Connected Successfully!",
+            color = 16753920,
+            footer = {
+                text = "FAWWA FISH IT"
+            }
+        }}
+    }
+
+    local requestFunc =
+        (syn and syn.request) or
+        http_request or
+        request
+
+    if not requestFunc then
+        return false
+    end
+
+    local success, result = pcall(function()
+        return requestFunc({
+            Url = url,
+            Method = "POST",
+            Headers = {
+                ["Content-Type"] = "application/json"
+            },
+            Body = HttpService:JSONEncode(payload)
+        })
+    end)
+
+    return success
+end
 
 local Window = Rayfield:CreateWindow({
     Name = "FAWWA FISH IT",
@@ -16,6 +62,8 @@ local Window = Rayfield:CreateWindow({
 local MainTab = Window:CreateTab("Main", 4483362458)
 local WebhookTab = Window:CreateTab("Webhook", 4483362458)
 local SettingsTab = Window:CreateTab("Settings", 4483362458)
+
+MainTab:CreateSection("Main Features")
 
 MainTab:CreateToggle({
     Name = "Auto Fish",
@@ -35,25 +83,41 @@ MainTab:CreateToggle({
     end,
 })
 
+WebhookTab:CreateSection("Discord Webhook")
+
 WebhookTab:CreateInput({
-    Name = "Discord Webhook",
+    Name = "Discord Webhook URL",
     PlaceholderText = "Paste webhook here",
     RemoveTextAfterFocusLost = false,
     Callback = function(Text)
-        getgenv().Webhook = Text
+        getgenv().FAWWA.Webhook = Text
     end,
 })
 
 WebhookTab:CreateButton({
     Name = "Test Webhook",
     Callback = function()
-        Rayfield:Notify({
-            Title = "FAWWA",
-            Content = "Webhook test clicked",
-            Duration = 5
-        })
+
+        local success = SendWebhook()
+
+        if success then
+            Rayfield:Notify({
+                Title = "FAWWA",
+                Content = "Webhook Sent Successfully!",
+                Duration = 5
+            })
+        else
+            Rayfield:Notify({
+                Title = "FAWWA",
+                Content = "Webhook Failed!",
+                Duration = 5
+            })
+        end
+
     end,
 })
+
+SettingsTab:CreateSection("Performance")
 
 SettingsTab:CreateButton({
     Name = "FPS Boost",
