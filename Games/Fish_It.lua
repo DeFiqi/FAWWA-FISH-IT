@@ -10,29 +10,24 @@ getgenv().FAWWA.Webhook = getgenv().FAWWA.Webhook or ""
 local function SendWebhook()
 local url = getgenv().FAWWA.Webhook
 
-```
 if not url or url == "" then
     return false
 end
 
 local payload = {
     content = [[
-```
-
 ## Player Caught
-
 > Notification by **Fawwa Store**
 
 Username: **`@jjuyeom`**
 
 **Obtained a SECRET tier**
-
-* Fish: **`Ghost Shark`**
-* Mutation: **`-`**
-* Weight: **`1.24K kg`**
-* Rarity: **`1 in 500K`**
-  ]]
-  }
+- Fish: **`Ghost Shark`**
+- Mutation: **`-`**
+- Weight: **`1.24K kg`**
+- Rarity: **`1 in 500K`**
+]]
+}
 
   local requestFunc =
   (syn and syn.request) or
