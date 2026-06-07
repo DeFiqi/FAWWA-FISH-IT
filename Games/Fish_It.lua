@@ -15,19 +15,48 @@ if not url or url == "" then
 end
 
 local payload = {
-    content = [[
-## Player Caught
+
+embeds = {{
+
+title = "IZIN KING 👑, NARIK DULUAN NIH ☠️",
+
+description = [[
+
+
+
 > Notification by **Fawwa Store**
+
+
 
 Username: **`@jjuyeom`**
 
+
+
 **Obtained a SECRET tier**
-- Fish: **`Ghost Shark`**
-- Mutation: **`-`**
-- Weight: **`1.24K kg`**
-- Rarity: **`1 in 500K`**
-]]
-}
+
+
+
+* Fish: **`Ghost Shark`**
+
+* Mutation: **`-`**
+
+* Weight: **`1.24K kg`**
+
+* Rarity: **`1 in 500K`**
+
+  ]],
+
+  color = 16753920,
+
+  footer = {
+
+  text = "FAWWA FISH IT"
+
+  }
+
+  }}
+
+  }
 
   local requestFunc =
   (syn and syn.request) or
@@ -94,8 +123,38 @@ WebhookTab:CreateInput({
     Name = "Discord Webhook URL",
     PlaceholderText = "Paste webhook here",
     RemoveTextAfterFocusLost = false,
+    Flag = "WebhookURL",
+
     Callback = function(Text)
         getgenv().FAWWA.Webhook = Text
+    end,
+})
+
+SettingsTab:CreateButton({
+    Name = "Save Config",
+    Callback = function()
+
+        Rayfield:Notify({
+            Title = "FAWWA",
+            Content = "Config Saved",
+            Duration = 3
+        })
+
+    end,
+})
+
+SettingsTab:CreateButton({
+    Name = "Reset Config",
+    Callback = function()
+
+        delfile("FAWWA/FishIt.json")
+
+        Rayfield:Notify({
+            Title = "FAWWA",
+            Content = "Config Reset",
+            Duration = 3
+        })
+
     end,
 })
 
