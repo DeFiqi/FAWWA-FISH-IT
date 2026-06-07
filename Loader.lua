@@ -2,7 +2,7 @@ local VERSION = "1.0"
 local HUB_NAME = "FAWWA FISH IT"
 
 local SupportedGames = {
-    [6701277882] = "FishIt"
+    [6701277882] = "Fish_It"
 }
 
 local BASE_URL = "https://raw.githubusercontent.com/DeFiqi/FAWWA-FISH-IT/main"
