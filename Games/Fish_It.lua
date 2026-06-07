@@ -8,45 +8,55 @@ getgenv().FAWWA = getgenv().FAWWA or {}
 getgenv().FAWWA.Webhook = getgenv().FAWWA.Webhook or ""
 
 local function SendWebhook()
-    local url = getgenv().FAWWA.Webhook
+local url = getgenv().FAWWA.Webhook
 
-    if not url or url == "" then
-        return false
-    end
-
-    local payload = {
-        embeds = {{
-            title = "🎣 FAWWA FISH IT",
-            description = "Webhook Connected Successfully!",
-            color = 16753920,
-            footer = {
-                text = "FAWWA FISH IT"
-            }
-        }}
-    }
-
-    local requestFunc =
-        (syn and syn.request) or
-        http_request or
-        request
-
-    if not requestFunc then
-        return false
-    end
-
-    local success, result = pcall(function()
-        return requestFunc({
-            Url = url,
-            Method = "POST",
-            Headers = {
-                ["Content-Type"] = "application/json"
-            },
-            Body = HttpService:JSONEncode(payload)
-        })
-    end)
-
-    return success
+```
+if not url or url == "" then
+    return false
 end
+
+local payload = {
+    content = [[
+```
+
+## Player Caught
+
+> Notification by **Fawwa Store**
+
+Username: **`@jjuyeom`**
+
+**Obtained a SECRET tier**
+
+* Fish: **`Ghost Shark`**
+* Mutation: **`-`**
+* Weight: **`1.24K kg`**
+* Rarity: **`1 in 500K`**
+  ]]
+  }
+
+  local requestFunc =
+  (syn and syn.request) or
+  http_request or
+  request
+
+  if not requestFunc then
+  return false
+  end
+
+  local success = pcall(function()
+  requestFunc({
+  Url = url,
+  Method = "POST",
+  Headers = {
+  ["Content-Type"] = "application/json"
+  },
+  Body = HttpService:JSONEncode(payload)
+  })
+  end)
+
+  return success
+  end
+
 
 local Window = Rayfield:CreateWindow({
     Name = "FAWWA FISH IT",
